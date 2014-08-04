@@ -23,4 +23,6 @@ Commands:
 	stats -- prints average, median, max, and min for all columns
 	exit -- exits the application
 
-
+Building the file:
+	The project was initially coded using Visual Studio 2012 Professional, so using a version of visual studio to build the .sln file would be the quickest way. 
+	Otherwise, you can compile the csv_funcs.h, csv_funcs.cpp, and main.cpp to create your executable file
