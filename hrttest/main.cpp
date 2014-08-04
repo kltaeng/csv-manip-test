@@ -1,24 +1,32 @@
 #include "csv_funcs.h";
 
 int main(int argc, char* argv[]) {
-
+	// Show help if we didn't get the proper args
 	if (argc > 2) {
 		showHelp();
 		return 0;
 	}
 
+	// Grab filename
 	string fileName = argv[1];
 
+	// Set up our storage containers
 	FileData csvFile;
+
+	// Used to determine which columns are visible
 	int*  visibleColumns;
+
 	Stats* colStats;
 	int numColumns = 0;
 
+	// Flag to determine if we need to recalc the median if a row has been sorted
 	bool sorted = false;
 	
 	cout << "Loading file: " << fileName << endl;
+	// Initial load
 	int totalRows = getFileData(fileName, csvFile, colStats, numColumns);
 
+	// Something went wrong, lets just say we couldn't open the file
 	if (totalRows == 0) {
 		cout << "Could not open file. " << fileName << endl;
 		return 0;
@@ -26,6 +34,7 @@ int main(int argc, char* argv[]) {
 
 	cout << "Loaded file with: " << totalRows << " rows, and " << numColumns << " columns. \n>: ";
 
+	// By default, all columns are visible
 	visibleColumns = new int[numColumns];
 	for (int i = 0; i < numColumns; ++i) {
 		visibleColumns[i] = 1;
@@ -36,6 +45,7 @@ int main(int argc, char* argv[]) {
 		string col, col2;
 		string value;
 		int op = -1;
+		// Grab the command as it should be the first thing they type
 		cin >> command;
 		if (command == "sort") {
 			cin >> col;
@@ -44,6 +54,7 @@ int main(int argc, char* argv[]) {
 			if (column < 0 || column >= numColumns) {
 				cout << "Please enter a valid column number between 0 and " << numColumns << endl;	
 			} else {
+				// If we got a valid input, sort up the column
 				heapSort(csvFile, totalRows, column);		
 				sorted = true;
 			}
@@ -63,6 +74,8 @@ int main(int argc, char* argv[]) {
 		} else if (command == "mult")  {
 			op = OPS::MULT;
 		} else if (command == "select" ) {
+			// each time we get a select, we clear all the rows 
+			// for visibilty, and set just the ones the user wanted
 			for (int i = 0; i < numColumns; ++i) {
 				visibleColumns[i] = 0;
 			}
@@ -88,6 +101,7 @@ int main(int argc, char* argv[]) {
 			showHelp();
 		}
 
+		// if we recieved an op command, here is where we'll call the function w/ the right params
 		if (op >= 0) {
 			cin >> col;
 			cin >> col2;

@@ -1,6 +1,6 @@
 #include "csv_funcs.h";
 
-
+// Shows help about commands and usage
 void showHelp() {
 	cout << "Usage: csv_manip.exe (filename)" << endl;
 	cout << "{add, mult, div, sub} [column number] [column number]" << endl;
@@ -9,6 +9,7 @@ void showHelp() {
 	cout << "sort  [column number] : Sorts column using heap sort" << endl;
 	cout << "select [column number] [column number] ... : selects specific columns to display" << endl;
 	cout << "clear : clears selection of specific columns to display" << endl;
+	cout << "exit  : exits the application" << endl;
 }
 
 void printCSVData(FileData &csvFile, int numColumns, int* visibleColumns) {
@@ -137,6 +138,7 @@ int getFileData(string fileName, FileData &csvFile, Stats* &colStats, int &numCo
 		return 0;
 	}
 }
+
 
 void shiftRight(FileData &csvFile, int low, int high, int sortCol)
 {
